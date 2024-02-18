@@ -1,0 +1,101 @@
+<div class="container-fluid text-center">
+    <h1>View Ventas</h1>
+
+    <div class="container mt-3 mb-3">
+      <div class="d-flex justify-content-end">
+        <div style="margin-right: 10px;">
+          <input type="date" id="dateFilter" [(ngModel)]="fechaSeleccionada" name="dateFilter" class="form-control" required>
+        </div>
+        <button (click)="buscar()" class="btn btn-primary">
+          Buscar
+        </button>
+      </div>
+    </div>
+
+
+    <div  style="width: 100%; padding: 2rem; background-color:white; border-radius: 10px;">
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Total</th>
+            <th scope="col">Ver Detalle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let venta of dataVenta">
+            <td>{{ venta.id }}</td>
+            <td>{{ venta.nombres }} {{ venta.apellidos }}</td>
+            <td>{{ venta.fecha }}</td>
+            <td>{{ venta.total }}</td>
+            <td hidden>{{ venta.id_cliente }}</td>
+            <td>
+              <a (click)="handleClick(venta.id, venta.id_cliente, venta.fecha, venta.total)" [attr.data-id]="venta.id" class="elemento-clickeable">
+                Ver Detalle
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <app-popup *ngIf="showPopup" (closed)="closePopup()" [title]="popupTitle">
+        <div class="container" style="text-align: start;">
+          <h4 style="color: black;">Cliente</h4>
+        </div>
+        <div class="row" style="margin-bottom: 3rem;">
+          <div class="col-md-6">
+            <app-input-label labelText="Nombre:" [isDisabled]="true" [inputValue]="cliente?.nombres"></app-input-label>
+          </div>
+          <div class="col-md-6">
+            <app-input-label labelText="Apellidos:" [isDisabled]="true" [inputValue]="cliente?.apellidos"></app-input-label>
+          </div>
+          <div class="col-md-6">
+            <app-input-label labelText="DNI:" [isDisabled]="true" [inputValue]="cliente?.dni"></app-input-label>
+          </div>
+          <div class="col-md-6">
+            <app-input-label labelText="Telefono:" [isDisabled]="true" [inputValue]="cliente?.telefono"></app-input-label>
+          </div>
+          <div class="col-md-6">
+            <app-input-label labelText="Correo:" [isDisabled]="true" [inputValue]="cliente?.email"></app-input-label>
+          </div>
+        </div>
+
+        <div style="width: 100%;">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio Unitario</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">SubTotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let detalle of subDetail; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ detalle.nombre }}</td>
+                <td>{{ 'S/' + detalle.precio }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>{{ 'S/' + detalle.subtotal }}</td>
+              </tr>
+            </tbody>
+
+          </table>
+
+          <div style="display: flex; flex-direction: row; width: 100%; color: black; margin-top: 4rem;">
+            <label style="flex: 1;">Fecha</label>
+            <input style="flex: 1;" id="datePopup" [(ngModel)]="fechaPopup" name="datePopup" class="form-control" required [disabled]="fechaPopupDisabled">
+            <label style="flex: 1;">Total S/ {{ totalPopup }}</label>
+          </div>
+
+
+        </div>
+      </app-popup>
+    </div>
+
+</div>

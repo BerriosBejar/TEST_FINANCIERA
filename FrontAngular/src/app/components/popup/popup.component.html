@@ -1,0 +1,14 @@
+<div class="popup-overlay" (click)="closePopup($event)">
+  <div class="popup-container" style="width: 80%;">
+    <div class="popup-header" style="color:black;">
+      <h4>{{ title }}</h4>
+      <button class="btn btn-danger close-btn" (click)="closePopup($event)">X</button>
+    </div>
+    <div style="border: 1px solid black; box-sizing: border-box; border-radius: 1rem; padding: 2rem;">
+      <div class="popup-body">
+        <ng-content></ng-content>
+      </div>
+    </div>
+
+  </div>
+</div>
